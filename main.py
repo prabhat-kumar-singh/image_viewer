@@ -11,24 +11,24 @@ initial_image = ImageTk.PhotoImage(PIL.Image.open("c:/Users/MY HP/Downloads/sdf.
 val = []
 path = []
 count = 0
-current_image = ""
 click = False
+container = Label(image = initial_image)
+container.grid(row = 0, column = 0, columnspan = 3)
 #Select Images from a directory
 
 def showImage():
-    global count
+    global count, container
     if not click:
         openImage = Button(window, text = "Select Images here...", command = lambda: selectImage())
         openImage.grid(row = 1, column = 1)
-
-    if path:
-        print(path[count])
+    elif path:
+        # i = PIL.Image.open(path[count])
+        # i.show()
+        container.grid_forget()
         current_image = ImageTk.PhotoImage(PIL.Image.open(path[count]))
-        image_container = Label(image = current_image)
-        image_container.grid(row = 0, column = 0, columnspan = 3)
-    else:
-        initial_container = Label(image = initial_image)
-        initial_container.grid(row = 0, column = 0, columnspan = 3)
+        container = Label(image = current_image)
+        container.image = current_image
+        container.grid(row = 0, column = 0, columnspan = 3)
 
 def selectImage():
     global val, path
