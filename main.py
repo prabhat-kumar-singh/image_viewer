@@ -11,7 +11,7 @@ path = []
 count = 0
 click = False
 
-initial_image = ImageTk.PhotoImage(PIL.Image.open("c:/Users/MY HP/Desktop/TDC/Python/0.1(Get Started)/Logo.png"))
+initial_image = ImageTk.PhotoImage(PIL.Image.open("Logo.png"))
 container = Label(image = initial_image)
 container.grid(row = 0, column = 0, columnspan = 3)
 
@@ -27,7 +27,7 @@ def showImage():
 
         #setting the name of the image as the window title
         window.title(image_name[-1])
-        
+
         current_image = ImageTk.PhotoImage(image = PIL.Image.open(path[count]).resize((980, 720)))
         container = Label(image = current_image)
         container.image = current_image
