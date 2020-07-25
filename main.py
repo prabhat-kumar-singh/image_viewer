@@ -5,33 +5,39 @@ from tkinter import filedialog
 
 window = Tk()
 window.title("TDC Photo Viewer")
-window.geometry('1080x740')
 
-initial_image = ImageTk.PhotoImage(PIL.Image.open("c:/Users/MY HP/Downloads/sdf.png"))
 val = []
 path = []
 count = 0
 click = False
+
+initial_image = ImageTk.PhotoImage(PIL.Image.open("c:/Users/MY HP/Desktop/TDC/Python/0.1(Get Started)/Logo.png"))
 container = Label(image = initial_image)
 container.grid(row = 0, column = 0, columnspan = 3)
-#Select Images from a directory
 
 def showImage():
     global count, container
     if not click:
         openImage = Button(window, text = "Select Images here...", command = lambda: selectImage())
         openImage.grid(row = 1, column = 1)
-    elif path:
-        # i = PIL.Image.open(path[count])
-        # i.show()
+    
+    if path:
         container.grid_forget()
-        current_image = ImageTk.PhotoImage(PIL.Image.open(path[count]))
+        image_name = path[count].split('/')
+
+        #setting the name of the image as the window title
+        window.title(image_name[-1])
+        
+        current_image = ImageTk.PhotoImage(image = PIL.Image.open(path[count]).resize((980, 720)))
         container = Label(image = current_image)
         container.image = current_image
         container.grid(row = 0, column = 0, columnspan = 3)
 
 def selectImage():
-    global val, path
+    global val, path, click
+    
+    #Clicked here to select images
+    click = True
     val = filedialog.askopenfiles(filetypes = (("png files", "*.png"), ("All Files", "*")))
     if val:
         path = [v.name for v in val]
@@ -40,20 +46,20 @@ def selectImage():
 
 def prev_next_trigger(triggered_element):
     global count, click
-    #clicked on the button
-    click = True
-    if triggered_element == "left_click":
-        print("Left click")
-        if count == 0:
-            count = len(val) - 1
-        else:
-            count -= 1
-    elif triggered_element == "right_click":
-        print("Right Click")
-        if count == len(val) - 1:
-            count = 0
-        else:
-            count += 1
+    #find if the next or prev button is pressed
+    if click:
+        if triggered_element == "left_click":
+            if count == 0:
+                count = len(val) - 1
+            else:
+                count -= 1
+        elif triggered_element == "right_click":
+            if count == len(val) - 1:
+                count = 0
+            else:
+                count += 1
+    
+    #Displaying Image on the window
     showImage()
 
 #Buttons
